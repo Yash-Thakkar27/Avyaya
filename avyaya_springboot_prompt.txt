@@ -1,0 +1,187 @@
+PROMPT: Build Avyaya E‑Commerce Website (Spring Boot Backend)
+
+You are a senior full‑stack software architect.
+
+Build a luxury jewelry e‑commerce platform for a brand called Avyaya.
+The website should look like a premium jewelry brand (Cartier / Mejuri
+style) with a minimal, elegant, modern design.
+
+  -------------------
+  Brand Information
+  -------------------
+
+Brand: Avyaya Tagline: “Eternal as your love.”
+
+Brand concept: Avyaya sells minimalist fine jewelry with lab‑grown
+diamonds designed for daily wear with investment value.
+
+Key brand pillars: 1. Everyday jewelry with resale value 2. Contemporary
+minimalist design 3. Accessible luxury 4. Hypoallergenic materials
+
+Target price range: ₹15,000 – ₹75,000
+
+Target audience: Urban professionals, Gen Z, Millennials.
+
+  ------------------
+  Technology Stack
+  ------------------
+
+Frontend: - Next.js (React) - TailwindCSS - Framer Motion
+
+Backend: - Spring Boot 3 - Java 17 - Spring Security - JWT
+Authentication
+
+Database: - PostgreSQL
+
+ORM: - Spring Data JPA / Hibernate
+
+Payments: - Razorpay API
+
+Deployment: Frontend → Vercel Backend → AWS / Render / Railway Database
+→ PostgreSQL
+
+  ------------------------------------
+  Backend Architecture (Spring Boot)
+  ------------------------------------
+
+Use clean layered architecture.
+
+Package structure:
+
+com.avyaya │ ├── controller ├── service ├── repository ├── model ├── dto
+├── security ├── config └── exception
+
+Follow RESTful API design principles.
+
+  ---------------
+  Core Features
+  ---------------
+
+Authentication APIs
+
+POST /api/auth/register POST /api/auth/login
+
+Use JWT tokens for authentication.
+
+  --------------------------------------------------
+  Products APIs
+  --------------------------------------------------
+  Categories
+
+  Earrings Rings Neckwear Unisex Collection
+
+  APIs:
+
+  GET /api/categories POST /api/categories
+  --------------------------------------------------
+
+Cart APIs
+
+GET /api/cart POST /api/cart/add DELETE /api/cart/remove
+
+Cart fields:
+
+userId productId quantity
+
+  --------------------------------------------------
+  Orders APIs
+  --------------------------------------------------
+  Database Schema
+
+  --------------------------------------------------
+
+Users id name email password address created_at
+
+Products id name description price category material stone image_url
+stock created_at
+
+Orders id user_id total_price status created_at
+
+Order_Items id order_id product_id quantity price
+
+Cart id user_id product_id quantity
+
+  ----------
+  Security
+  ----------
+
+Use: Spring Security JWT Authentication BCrypt password hashing
+
+Protected routes:
+
+/api/products (admin POST/PUT/DELETE) /api/orders (authenticated users)
+
+  ------------------------------
+  Razorpay Payment Integration
+  ------------------------------
+
+POST /api/payment/create-order POST /api/payment/verify
+
+Flow:
+
+1.  Create Razorpay order
+2.  Send order ID to frontend
+3.  Complete payment
+4.  Verify payment signature
+5.  Save order to database
+
+  ----------------
+  Frontend Pages
+  ----------------
+
+Home Shop Product Page Cart Checkout Login Signup Account Orders About
+Contact
+
+  -----------
+  UI Design
+  -----------
+
+Minimal luxury aesthetic.
+
+Colors:
+
+Primary: #0F0F0F Accent: #D4AF37 Background: #F8F6F2
+
+Typography:
+
+Headings: Playfair Display Body: Inter
+
+  -------------------
+  Homepage Sections
+  -------------------
+
+Hero Banner Tagline: “Eternal as your love”
+
+Featured categories: - Earrings - Rings - Neckwear - Unisex
+
+USP section: - Certified Lab Diamonds - BIS Hallmark - 90 Day Buyback -
+Free Shipping
+
+Featured products grid Customer trust section
+
+  -----------------
+  Admin Dashboard
+  -----------------
+
+Admin can:
+
+Add product Update product Delete product View orders Manage inventory
+
+  --------------
+  Deliverables
+  --------------
+
+Generate:
+
+1.  Full Spring Boot backend
+2.  REST APIs
+3.  Entity classes
+4.  Repository interfaces
+5.  Service layer
+6.  JWT security configuration
+7.  Razorpay payment integration
+8.  Next.js frontend
+9.  API integration
+10. Setup instructions
+
+Code should be clean, modular, production ready and well documented.
