@@ -35,7 +35,7 @@ public class User {
     @Column(length = 500)
     private String address;
     
-    @Column(length = 50, nullable = false)
+    @Column(length = 50, nullable = false, columnDefinition = "varchar(50) DEFAULT 'ROLE_USER'")
     private String role = "ROLE_USER";
     
     @CreationTimestamp

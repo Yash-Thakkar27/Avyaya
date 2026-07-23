@@ -27,8 +27,8 @@ const USPSection = () => {
     },
     {
       icon: CurrencyRupeeIcon,
-      title: '90 Day Buyback',
-      description: 'Investment protection with our 90-day buyback guarantee on all purchases.',
+      title: 'Buyback',
+      description: 'Investment protection with our buyback guarantee on all purchases.',
       color: 'text-accent'
     },
     {

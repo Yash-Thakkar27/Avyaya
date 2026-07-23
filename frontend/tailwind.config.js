@@ -27,8 +27,9 @@ module.exports = {
         }
       },
       fontFamily: {
-        'playfair': ['Playfair Display', 'serif'],
-        'inter': ['Inter', 'sans-serif'],
+        'playfair': ['var(--font-cormorant)', 'Cormorant Garamond', 'serif'],
+        'cormorant': ['var(--font-cormorant)', 'Cormorant Garamond', 'serif'],
+        'inter': ['var(--font-inter)', 'Inter', 'sans-serif'],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
