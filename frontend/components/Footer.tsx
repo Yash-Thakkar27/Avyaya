@@ -27,11 +27,30 @@ const Footer = () => {
     ]
   }
 
-  const socialLinks = [
-    { name: 'Instagram', href: '#', icon: '📷' },
-    { name: 'Facebook', href: '#', icon: '📘' },
-    { name: 'Twitter', href: '#', icon: '🐦' },
-    { name: 'Pinterest', href: '#', icon: '📌' }
+  const socialLinks: { name: string; href: string; icon: React.ReactNode }[] = [
+    {
+      name: 'Instagram',
+      href: 'https://www.instagram.com/avyayajewels/?hl=en',
+      icon: (
+        <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="ig-grad" cx="30%" cy="107%" r="150%">
+              <stop offset="0%" stopColor="#fdf497" />
+              <stop offset="5%" stopColor="#fdf497" />
+              <stop offset="45%" stopColor="#fd5949" />
+              <stop offset="60%" stopColor="#d6249f" />
+              <stop offset="90%" stopColor="#285AEB" />
+            </radialGradient>
+          </defs>
+          <rect x="2" y="2" width="20" height="20" rx="5.5" ry="5.5" fill="url(#ig-grad)" />
+          <circle cx="12" cy="12" r="4.5" stroke="white" strokeWidth="1.8" fill="none" />
+          <circle cx="17.5" cy="6.5" r="1.2" fill="white" />
+        </svg>
+      )
+    },
+    { name: 'Facebook', href: '#', icon: <span className="text-xl">📘</span> },
+    { name: 'Twitter', href: '#', icon: <span className="text-xl">🐦</span> },
+    { name: 'Pinterest', href: '#', icon: <span className="text-xl">📌</span> }
   ]
 
   return (
@@ -179,7 +198,7 @@ const Footer = () => {
           <div className="flex flex-col lg:flex-row justify-between items-center">
             {/* Copyright */}
             <div className="text-gray-300 text-sm mb-4 lg:mb-0">
-              © {new Date().getFullYear()} Avyaya. All rights reserved. Made with ❤️ in India.
+              © 2025 Avyaya. All rights reserved. Made with ❤️ in India.
             </div>
 
             {/* Social Links */}
@@ -188,10 +207,12 @@ const Footer = () => {
                 <Link
                   key={social.name}
                   href={social.href}
-                  className="text-gray-400 hover:text-accent transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:opacity-80 transition-opacity"
                   aria-label={social.name}
                 >
-                  <span className="text-xl">{social.icon}</span>
+                  {social.icon}
                 </Link>
               ))}
             </div>
