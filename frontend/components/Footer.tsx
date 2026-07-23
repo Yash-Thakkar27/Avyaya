@@ -56,11 +56,11 @@ const Footer = () => {
                 />
               </Link>
               <p className="text-gray-300 mb-6 leading-relaxed">
-                Eternal as your love. We create minimalist fine jewelry with lab-grown 
-                diamonds designed for daily wear with investment value. Every piece 
+                Eternal as your love. We create minimalist fine jewelry with lab-grown
+                diamonds designed for daily wear with investment value. Every piece
                 tells a story of love, commitment, and timeless elegance.
               </p>
-              
+
               {/* Newsletter */}
               <div>
                 <h4 className="font-semibold mb-3">Stay Updated</h4>
@@ -89,7 +89,7 @@ const Footer = () => {
             <ul className="space-y-2">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
-                  <Link 
+                  <Link
                     href={link.href}
                     className="text-gray-300 hover:text-accent transition-colors"
                   >
@@ -111,7 +111,7 @@ const Footer = () => {
             <ul className="space-y-2">
               {footerLinks.customer.map((link) => (
                 <li key={link.name}>
-                  <Link 
+                  <Link
                     href={link.href}
                     className="text-gray-300 hover:text-accent transition-colors"
                   >
@@ -133,7 +133,7 @@ const Footer = () => {
             <ul className="space-y-2">
               {footerLinks.legal.map((link) => (
                 <li key={link.name}>
-                  <Link 
+                  <Link
                     href={link.href}
                     className="text-gray-300 hover:text-accent transition-colors"
                   >
@@ -185,7 +185,7 @@ const Footer = () => {
             {/* Social Links */}
             <div className="flex space-x-6">
               {socialLinks.map((social) => (
-                <Link 
+                <Link
                   key={social.name}
                   href={social.href}
                   className="text-gray-400 hover:text-accent transition-colors"
@@ -200,17 +200,17 @@ const Footer = () => {
           {/* Additional Info */}
           <div className="mt-8 pt-8 border-t border-gray-700 grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left">
             <div>
-              <h5 className="font-semibold text-accent mb-2">📞 Call Us</h5>
-              <p className="text-gray-300 text-sm">+91 98765 43210</p>
+              <h5 className="font-semibold text-accent mb-2">Call Us</h5>
+              <p className="text-gray-300 text-sm">+91 98207 77037</p>
               <p className="text-gray-400 text-xs">Mon-Sat 10AM-7PM</p>
             </div>
             <div>
-              <h5 className="font-semibold text-accent mb-2">📧 Email Us</h5>
+              <h5 className="font-semibold text-accent mb-2">Email Us</h5>
               <p className="text-gray-300 text-sm">avyayajewels@gmail.com</p>
               <p className="text-gray-400 text-xs">We reply within 24 hours</p>
             </div>
             <div>
-              <h5 className="font-semibold text-accent mb-2">📍 Visit Us</h5>
+              <h5 className="font-semibold text-accent mb-2">Visit Us</h5>
               <p className="text-gray-300 text-sm">Mumbai, India</p>
               <p className="text-gray-400 text-xs">By appointment only</p>
             </div>
