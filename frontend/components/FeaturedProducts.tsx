@@ -106,7 +106,7 @@ const FeaturedProducts = () => {
   }
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-gray-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div 
@@ -119,7 +119,7 @@ const FeaturedProducts = () => {
           <h2 className="text-3xl lg:text-4xl font-playfair font-bold text-primary mb-4">
             Featured Products
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
             Handpicked pieces from our collection that embody sophistication, 
             craftsmanship, and timeless elegance.
           </p>
@@ -139,7 +139,7 @@ const FeaturedProducts = () => {
               variants={itemVariants}
               className="group cursor-pointer"
             >
-              <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300">
+              <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-2xl hover:shadow-accent/5 transition-all duration-300 border border-gray-700/50">
                 {/* Product Image */}
                 <div className="relative aspect-square overflow-hidden">
                   <Image
@@ -159,15 +159,15 @@ const FeaturedProducts = () => {
                   {/* Action Buttons */}
                   <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="flex flex-col space-y-2">
-                      <button className="p-2 bg-white rounded-full shadow-lg hover:bg-gray-50 transition-colors">
-                        <HeartIcon className="w-5 h-5 text-gray-600 hover:text-accent" />
+                      <button className="p-2 bg-gray-700 rounded-full shadow-lg hover:bg-gray-600 transition-colors">
+                        <HeartIcon className="w-5 h-5 text-gray-300 hover:text-accent" />
                       </button>
                       <button
                         onClick={() => handleAddToCart(product.id)}
                         disabled={loadingId === product.id}
-                        className="p-2 bg-white rounded-full shadow-lg hover:bg-gray-50 transition-colors disabled:opacity-60"
+                        className="p-2 bg-gray-700 rounded-full shadow-lg hover:bg-gray-600 transition-colors disabled:opacity-60"
                       >
-                        <ShoppingBagIcon className="w-5 h-5 text-gray-600 hover:text-accent" />
+                        <ShoppingBagIcon className="w-5 h-5 text-gray-300 hover:text-accent" />
                       </button>
                     </div>
                   </div>
@@ -197,7 +197,7 @@ const FeaturedProducts = () => {
                     </Link>
                   </h3>
                   
-                  <div className="text-sm text-gray-600 mb-3">
+                  <div className="text-sm text-gray-500 mb-3">
                     <p>{product.material} • {product.stone}</p>
                   </div>
                   
@@ -206,7 +206,7 @@ const FeaturedProducts = () => {
                     <span className="text-xl font-bold text-primary">
                       {formatPrice(product.price)}
                     </span>
-                    <span className="text-sm text-gray-500 line-through">
+                    <span className="text-sm text-gray-600 line-through">
                       {formatPrice(product.originalPrice)}
                     </span>
                   </div>

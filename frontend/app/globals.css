@@ -5,8 +5,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --foreground-rgb: 15, 15, 15;
-  --background-rgb: 248, 246, 242;
+  --foreground-rgb: 237, 233, 225;
+  --background-rgb: 10, 10, 10;
   --accent-rgb: 212, 175, 55;
 }
 
@@ -50,7 +50,7 @@ a {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #1a1a1a;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -64,7 +64,7 @@ a {
 
 /* Shimmer animation for loading states */
 .shimmer {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
   background-size: 200% 100%;
   animation: shimmer 2s infinite;
 }
@@ -84,12 +84,12 @@ a {
 }
 
 .btn-secondary {
-  @apply border border-primary text-primary px-6 py-3 rounded-lg hover:bg-primary hover:text-white transition-all duration-300 font-medium;
+  @apply border border-gray-500 text-gray-200 px-6 py-3 rounded-lg hover:bg-gray-200 hover:text-gray-950 transition-all duration-300 font-medium;
 }
 
 /* Card styles */
 .card {
-  @apply bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300;
+  @apply bg-gray-900 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300;
 }
 
 .card-hover {
@@ -98,7 +98,7 @@ a {
 
 /* Input styles */
 .input-field {
-  @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent;
+  @apply w-full px-4 py-3 border border-gray-700 bg-gray-900 text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent;
 }
 
 /* Text styles */

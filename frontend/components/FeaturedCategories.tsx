@@ -53,7 +53,7 @@ const FeaturedCategories = () => {
   }
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-gray-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div 
@@ -66,7 +66,7 @@ const FeaturedCategories = () => {
           <h2 className="text-3xl lg:text-4xl font-playfair font-bold text-primary mb-4">
             Discover Our Collections
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
             Each piece in our collection is thoughtfully designed to complement your unique style 
             while maintaining the timeless elegance of fine jewelry.
           </p>
@@ -122,7 +122,7 @@ const FeaturedCategories = () => {
                   <h3 className="text-xl font-playfair font-semibold text-primary mb-2 group-hover:text-accent transition-colors">
                     {category.name}
                   </h3>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-400 text-sm">
                     {category.description}
                   </p>
                 </div>

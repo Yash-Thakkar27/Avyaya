@@ -71,7 +71,7 @@ const USPSection = () => {
   }
 
   return (
-    <section className="py-20 bg-gradient-to-br from-gray-50 to-gold-50">
+    <section className="py-20 bg-gradient-to-br from-gray-950 to-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -84,7 +84,7 @@ const USPSection = () => {
           <h2 className="text-3xl lg:text-4xl font-playfair font-bold text-primary mb-4">
             The Avyaya Promise
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          <p className="text-lg text-gray-400 max-w-3xl mx-auto">
             We're committed to providing you with exceptional jewelry that combines
             timeless beauty, ethical sourcing, and uncompromising quality.
           </p>
@@ -106,9 +106,9 @@ const USPSection = () => {
                 variants={itemVariants}
                 className="group"
               >
-                <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 h-full card-hover">
+                <div className="bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-2xl hover:shadow-accent/5 transition-all duration-300 h-full card-hover border border-gray-700/50">
                   {/* Icon */}
-                  <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <div className="flex items-center justify-center w-16 h-16 bg-gray-700 rounded-lg mb-6 group-hover:scale-110 transition-transform duration-300">
                     <IconComponent className={`w-8 h-8 ${feature.color}`} />
                   </div>
 
@@ -116,7 +116,7 @@ const USPSection = () => {
                   <h3 className="text-xl font-playfair font-semibold text-primary mb-4 group-hover:text-accent transition-colors">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-600 leading-relaxed">
+                  <p className="text-gray-400 leading-relaxed">
                     {feature.description}
                   </p>
 
@@ -132,7 +132,7 @@ const USPSection = () => {
 
         {/* Stats Section */}
         <motion.div
-          className="mt-20 pt-16 border-t border-gray-200"
+          className="mt-20 pt-16 border-t border-gray-800"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}

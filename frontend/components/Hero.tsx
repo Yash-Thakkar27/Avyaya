@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-background via-white to-gold-50">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-950 via-gray-900 to-black">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-accent rounded-full blur-3xl"></div>
@@ -33,7 +33,7 @@ const Hero = () => {
 
           {/* Subtitle */}
           <motion.p 
-            className="text-lg sm:text-xl lg:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
+            className="text-lg sm:text-xl lg:text-2xl text-gray-400 max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -65,7 +65,7 @@ const Hero = () => {
 
           {/* Features */}
           <motion.div 
-            className="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-16 pt-16 border-t border-gray-200"
+            className="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-16 pt-16 border-t border-gray-800"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
@@ -86,7 +86,7 @@ const Hero = () => {
                 <h3 className="font-semibold text-primary mb-2">
                   {feature.title}
                 </h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-500">
                   {feature.desc}
                 </p>
               </motion.div>
