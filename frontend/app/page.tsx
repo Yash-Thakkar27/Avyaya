@@ -3,7 +3,6 @@ import Hero from '@/components/Hero'
 import FeaturedCategories from '@/components/FeaturedCategories'
 import USPSection from '@/components/USPSection'
 import FeaturedProducts from '@/components/FeaturedProducts'
-import CustomerTrust from '@/components/CustomerTrust'
 import Footer from '@/components/Footer'
 
 export default function HomePage() {
@@ -14,7 +13,6 @@ export default function HomePage() {
       <FeaturedCategories />
       <USPSection />
       <FeaturedProducts />
-      <CustomerTrust />
       <Footer />
     </main>
   )

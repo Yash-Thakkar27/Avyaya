@@ -40,8 +40,8 @@ const Header = () => {
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-white/95 backdrop-blur-md shadow-lg' 
-          : 'bg-transparent'
+          ? 'bg-gray-950/98 backdrop-blur-md shadow-[0_4px_24px_rgba(0,0,0,0.5)]' 
+          : 'bg-gray-950/90 backdrop-blur-sm'
       }`}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -54,7 +54,7 @@ const Header = () => {
                 alt="Avyaya"
                 width={160}
                 height={60}
-                className="h-12 w-auto object-contain"
+                className="h-12 w-auto object-contain brightness-0 invert"
                 priority
               />
             </Link>
@@ -67,7 +67,7 @@ const Header = () => {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-primary hover:text-accent transition-colors duration-200 px-3 py-2 text-sm font-medium"
+                  className="text-gray-200 hover:text-white transition-colors duration-200 px-3 py-2 text-sm font-medium tracking-wide"
                 >
                   {item.name}
                 </Link>
@@ -77,29 +77,29 @@ const Header = () => {
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center space-x-4">
-            <button className="p-2 text-primary hover:text-accent transition-colors duration-200">
+            <button className="p-2 text-gray-300 hover:text-white transition-colors duration-200">
               <MagnifyingGlassIcon className="h-6 w-6" />
             </button>
             
             {isAuthenticated ? (
               <div className="relative group">
-                <button className="flex items-center space-x-2 p-2 text-primary hover:text-accent transition-colors duration-200">
+                <button className="flex items-center space-x-2 p-2 text-gray-300 hover:text-white transition-colors duration-200">
                   <UserIcon className="h-6 w-6" />
                   <span className="text-sm font-medium">{user?.name}</span>
                 </button>
                 
                 {/* User Dropdown */}
-                <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                <div className="absolute right-0 top-full mt-2 w-48 bg-gray-900 border border-gray-700 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                   <div className="py-2">
-                    <Link href="/account" className="block px-4 py-2 text-sm text-primary hover:bg-gray-50">
+                    <Link href="/account" className="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-800 hover:text-white">
                       My Account
                     </Link>
-                    <Link href="/orders" className="block px-4 py-2 text-sm text-primary hover:bg-gray-50">
+                    <Link href="/orders" className="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-800 hover:text-white">
                       My Orders
                     </Link>
                     <button 
                       onClick={logout}
-                      className="block w-full text-left px-4 py-2 text-sm text-primary hover:bg-gray-50"
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-200 hover:bg-gray-800 hover:text-white"
                     >
                       Sign Out
                     </button>
@@ -110,7 +110,7 @@ const Header = () => {
               <div className="flex items-center space-x-4">
                 <Link 
                   href="/login" 
-                  className="text-primary hover:text-accent transition-colors duration-200 text-sm font-medium"
+                  className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium"
                 >
                   Sign In
                 </Link>
@@ -125,7 +125,7 @@ const Header = () => {
 
             <button 
               onClick={() => setCartOpen(true)}
-              className="relative p-2 text-primary hover:text-accent transition-colors duration-200"
+              className="relative p-2 text-gray-300 hover:text-white transition-colors duration-200"
             >
               <ShoppingBagIcon className="h-6 w-6" />
               {cartItemsCount > 0 && (
@@ -140,7 +140,7 @@ const Header = () => {
           <div className="lg:hidden flex items-center space-x-2">
             <button 
               onClick={() => setCartOpen(true)}
-              className="relative p-2 text-primary"
+              className="relative p-2 text-gray-300 hover:text-white"
             >
               <ShoppingBagIcon className="h-6 w-6" />
               {cartItemsCount > 0 && (
@@ -152,7 +152,7 @@ const Header = () => {
             
             <button
               onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 text-primary"
+              className="p-2 text-gray-300 hover:text-white"
             >
               {isMobileMenuOpen ? (
                 <XMarkIcon className="h-6 w-6" />
@@ -171,36 +171,36 @@ const Header = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-white border-t"
+            className="lg:hidden bg-gray-950 border-t border-gray-800"
           >
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="block px-3 py-2 text-base font-medium text-primary hover:text-accent hover:bg-gray-50 rounded-md"
+                  className="block px-3 py-2 text-base font-medium text-gray-200 hover:text-white hover:bg-gray-800 rounded-md"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
               
-              <div className="border-t pt-4 mt-4">
+              <div className="border-t border-gray-800 pt-4 mt-4">
                 {isAuthenticated ? (
                   <div className="space-y-1">
-                    <div className="px-3 py-2 text-sm text-gray-500">
+                    <div className="px-3 py-2 text-sm text-gray-400">
                       Hello, {user?.name}
                     </div>
                     <Link
                       href="/account"
-                      className="block px-3 py-2 text-base font-medium text-primary hover:text-accent hover:bg-gray-50 rounded-md"
+                      className="block px-3 py-2 text-base font-medium text-gray-200 hover:text-white hover:bg-gray-800 rounded-md"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       My Account
                     </Link>
                     <Link
                       href="/orders"
-                      className="block px-3 py-2 text-base font-medium text-primary hover:text-accent hover:bg-gray-50 rounded-md"
+                      className="block px-3 py-2 text-base font-medium text-gray-200 hover:text-white hover:bg-gray-800 rounded-md"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       My Orders
@@ -210,7 +210,7 @@ const Header = () => {
                         logout()
                         setMobileMenuOpen(false)
                       }}
-                      className="block w-full text-left px-3 py-2 text-base font-medium text-primary hover:text-accent hover:bg-gray-50 rounded-md"
+                      className="block w-full text-left px-3 py-2 text-base font-medium text-gray-200 hover:text-white hover:bg-gray-800 rounded-md"
                     >
                       Sign Out
                     </button>
@@ -219,14 +219,14 @@ const Header = () => {
                   <div className="space-y-1">
                     <Link
                       href="/login"
-                      className="block px-3 py-2 text-base font-medium text-primary hover:text-accent hover:bg-gray-50 rounded-md"
+                      className="block px-3 py-2 text-base font-medium text-gray-200 hover:text-white hover:bg-gray-800 rounded-md"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Sign In
                     </Link>
                     <Link
                       href="/register"
-                      className="block px-3 py-2 text-base font-medium text-primary hover:text-accent hover:bg-gray-50 rounded-md"
+                      className="block px-3 py-2 text-base font-medium text-gray-200 hover:text-white hover:bg-gray-800 rounded-md"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Sign Up
