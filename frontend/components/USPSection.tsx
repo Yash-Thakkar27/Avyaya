@@ -20,12 +20,6 @@ const USPSection = () => {
       color: 'text-blue-600'
     },
     {
-      icon: ShieldCheckIcon,
-      title: 'BIS Hallmark',
-      description: 'All our jewelry comes with BIS hallmark certification ensuring purity and quality.',
-      color: 'text-green-600'
-    },
-    {
       icon: CurrencyRupeeIcon,
       title: 'Buyback',
       description: 'Investment protection with our buyback guarantee on all purchases.',
