@@ -3,117 +3,30 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { MagnifyingGlassIcon, AdjustmentsHorizontalIcon, HeartIcon, ShoppingBagIcon } from '@heroicons/react/24/outline'
 import { HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid'
+import toast from 'react-hot-toast'
+import api, { endpoints } from '@/lib/api'
+import { useAuthStore, useCartStore } from '@/lib/store'
 
 const ShopPage = () => {
-  // Sample products - in real app, this would come from API
-  const [allProducts] = useState([
-    {
-      id: 1,
-      name: 'Eternal Solitaire Ring',
-      price: 45000,
-      originalPrice: 52000,
-      category: 'Rings',
-      material: '18K Gold',
-      stone: '1ct Lab Diamond',
-      image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-      badge: 'Bestseller',
-      rating: 4.8,
-      reviews: 24
-    },
-    {
-      id: 2,
-      name: 'Classic Drop Earrings',
-      price: 32000,
-      originalPrice: null,
-      category: 'Earrings',
-      material: '18K Gold',
-      stone: '0.5ct Lab Diamond',
-      image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-      badge: 'New',
-      rating: 4.9,
-      reviews: 18
-    },
-    {
-      id: 3,
-      name: 'Minimalist Chain Necklace',
-      price: 28000,
-      originalPrice: 35000,
-      category: 'Neckwear',
-      material: '18K Gold',
-      stone: 'Lab Diamond Accent',
-      image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-      badge: 'Sale',
-      rating: 4.7,
-      reviews: 31
-    },
-    {
-      id: 4,
-      name: 'Contemporary Band Ring',
-      price: 25000,
-      originalPrice: null,
-      category: 'Rings',
-      material: '18K Gold',
-      stone: 'Lab Diamond Band',
-      image: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-      badge: 'Limited',
-      rating: 4.6,
-      reviews: 12
-    },
-    {
-      id: 5,
-      name: 'Vintage Stud Earrings',
-      price: 22000,
-      originalPrice: null,
-      category: 'Earrings',
-      material: '18K Gold',
-      stone: '0.3ct Lab Diamond',
-      image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-      rating: 4.8,
-      reviews: 45
-    },
-    {
-      id: 6,
-      name: 'Infinity Pendant',
-      price: 35000,
-      originalPrice: null,
-      category: 'Neckwear',
-      material: '18K Gold',
-      stone: '0.7ct Lab Diamond',
-      image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-      badge: 'Featured',
-      rating: 4.9,
-      reviews: 28
-    },
-    {
-      id: 7,
-      name: 'Elegant Tennis Bracelet',
-      price: 58000,
-      originalPrice: 65000,
-      category: 'Bracelets',
-      material: '18K Gold',
-      stone: '3ct Lab Diamond',
-      image: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-      badge: 'Sale',
-      rating: 4.7,
-      reviews: 16
-    },
-    {
-      id: 8,
-      name: 'Royal Crown Ring',
-      price: 78000,
-      originalPrice: null,
-      category: 'Rings',
-      material: '18K Gold',
-      stone: '2ct Lab Diamond',
-      image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-      badge: 'Premium',
-      rating: 5.0,
-      reviews: 8
-    }
-  ])
+  const router = useRouter()
+  const { isAuthenticated } = useAuthStore()
+  const { addItem } = useCartStore()
+  const [loadingId, setLoadingId] = useState<number | null>(null)
+  const [allProducts, setAllProducts] = useState<any[]>([])
+  const [apiLoading, setApiLoading] = useState(true)
+
+  // Fetch real products from backend
+  useEffect(() => {
+    api.get(endpoints.products.getAll)
+      .then(res => setAllProducts(res.data))
+      .catch(() => toast.error('Failed to load products.'))
+      .finally(() => setApiLoading(false))
+  }, [])
+
 
   const [filteredProducts, setFilteredProducts] = useState(allProducts)
   const [selectedCategory, setSelectedCategory] = useState('All')
@@ -172,6 +85,24 @@ const ShopPage = () => {
     setFilteredProducts(filtered)
   }, [searchQuery, selectedCategory, priceRange, sortBy, allProducts])
 
+  const handleAddToCart = async (productId: number) => {
+    if (!isAuthenticated) {
+      toast.error('Please sign in to add items to cart')
+      router.push('/login')
+      return
+    }
+    setLoadingId(productId)
+    try {
+      const response = await api.post(endpoints.cart.add, { productId, quantity: 1 })
+      addItem(response.data)
+      toast.success('Added to cart!')
+    } catch {
+      toast.error('Could not add to cart. Please try again.')
+    } finally {
+      setLoadingId(null)
+    }
+  }
+
   const toggleFavorite = (productId: number) => {
     setFavorites(prev =>
       prev.includes(productId)
@@ -201,9 +132,9 @@ const ShopPage = () => {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-gray-950">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-gray-900 border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -211,21 +142,30 @@ const ShopPage = () => {
             transition={{ duration: 0.6 }}
           >
             <h1 className="text-4xl font-playfair font-bold text-primary mb-4">Our Collection</h1>
-            <p className="text-lg text-gray-600">
+            <p className="text-lg text-gray-400">
               Discover our complete range of luxury jewelry pieces crafted with precision and designed to last a lifetime.
             </p>
           </motion.div>
         </div>
       </div>
 
+      {/* Loading skeleton */}
+      {apiLoading && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 sm:grid-cols-3 gap-8">
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className="bg-gray-800 rounded-xl h-72 animate-pulse" />
+          ))}
+        </div>
+      )}
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar Filters */}
           <div className="lg:w-1/4">
-            <div className="bg-white p-6 rounded-lg shadow-lg">
+            <div className="bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-700">
               {/* Search */}
               <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   Search Products
                 </label>
                 <div className="relative">
@@ -234,7 +174,7 @@ const ShopPage = () => {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search jewelry..."
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-accent"
+                    className="w-full pl-10 pr-4 py-3 bg-gray-700 border border-gray-600 text-gray-100 placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-accent focus:border-accent"
                   />
                   <MagnifyingGlassIcon className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                 </div>
@@ -242,7 +182,7 @@ const ShopPage = () => {
 
               {/* Categories */}
               <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="block text-sm font-medium text-gray-300 mb-3">
                   Categories
                 </label>
                 <div className="space-y-2">
@@ -253,7 +193,7 @@ const ShopPage = () => {
                       className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
                         selectedCategory === category
                           ? 'bg-accent text-white'
-                          : 'text-gray-600 hover:bg-gray-100'
+                          : 'text-gray-300 hover:bg-gray-700'
                       }`}
                     >
                       {category}
@@ -264,7 +204,7 @@ const ShopPage = () => {
 
               {/* Price Range */}
               <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="block text-sm font-medium text-gray-300 mb-3">
                   Price Range
                 </label>
                 <div className="space-y-4">
@@ -277,7 +217,7 @@ const ShopPage = () => {
                     onChange={(e) => setPriceRange([0, parseInt(e.target.value)])}
                     className="w-full accent-accent"
                   />
-                  <div className="flex justify-between text-sm text-gray-600">
+                  <div className="flex justify-between text-sm text-gray-400">
                     <span>{formatPrice(0)}</span>
                     <span>{formatPrice(priceRange[1])}</span>
                   </div>
@@ -286,13 +226,13 @@ const ShopPage = () => {
 
               {/* Sort */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="block text-sm font-medium text-gray-300 mb-3">
                   Sort By
                 </label>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-accent"
+                  className="w-full px-3 py-3 bg-gray-700 border border-gray-600 text-gray-100 rounded-lg focus:ring-2 focus:ring-accent focus:border-accent"
                 >
                   {sortOptions.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -310,7 +250,7 @@ const ShopPage = () => {
             <div className="lg:hidden mb-6">
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center space-x-2 bg-white px-4 py-3 rounded-lg shadow border border-gray-200"
+                className="flex items-center space-x-2 bg-gray-800 text-gray-200 px-4 py-3 rounded-lg shadow border border-gray-700"
               >
                 <AdjustmentsHorizontalIcon className="w-5 h-5" />
                 <span>Filters</span>
@@ -319,7 +259,7 @@ const ShopPage = () => {
 
             {/* Results Count */}
             <div className="flex justify-between items-center mb-6">
-              <p className="text-gray-600">
+              <p className="text-gray-400">
                 Showing {filteredProducts.length} of {allProducts.length} products
               </p>
             </div>
@@ -347,22 +287,20 @@ const ShopPage = () => {
                     }}
                     className="group cursor-pointer"
                   >
-                    <div className="card overflow-hidden">
+                    <div className="card overflow-hidden border border-gray-700/50">
                       {/* Product Image */}
                       <div className="relative aspect-square overflow-hidden bg-gray-100">
                         <Image
-                          src={product.image}
+                          src={product.imageUrl || 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&q=80'}
                           alt={product.name}
                           fill
                           className="object-cover group-hover:scale-110 transition-transform duration-700"
                         />
 
-                        {/* Badge */}
-                        {product.badge && (
-                          <div className="absolute top-4 left-4">
-                            <span className={`px-3 py-1 rounded-full text-xs font-medium ${getBadgeColor(product.badge)}`}>
-                              {product.badge}
-                            </span>
+                        {/* Sold Out overlay */}
+                        {product.stock === 0 && (
+                          <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                            <span className="text-white font-bold text-sm bg-red-600 px-3 py-1 rounded-full tracking-wide">SOLD OUT</span>
                           </div>
                         )}
 
@@ -386,14 +324,23 @@ const ShopPage = () => {
                           <div className="flex space-x-3">
                             <Link
                               href={`/product/${product.id}`}
-                              className="bg-white text-primary px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium"
+                              className="bg-white text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium"
                             >
                               View Details
                             </Link>
-                            <button className="bg-accent text-white px-4 py-2 rounded-lg hover:bg-accent/90 transition-colors font-medium flex items-center space-x-2">
-                              <ShoppingBagIcon className="w-4 h-4" />
-                              <span>Add to Cart</span>
-                            </button>
+                             <button
+                               onClick={(e) => {
+                                 e.preventDefault()
+                                 handleAddToCart(product.id)
+                               }}
+                               disabled={loadingId === product.id || product.stock === 0}
+                               className="bg-accent text-white px-4 py-2 rounded-lg hover:bg-accent/90 transition-colors font-medium flex items-center space-x-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                             >
+                               <ShoppingBagIcon className="w-4 h-4" />
+                               <span>
+                                 {product.stock === 0 ? 'Sold Out' : loadingId === product.id ? 'Adding...' : 'Add to Cart'}
+                               </span>
+                             </button>
                           </div>
                         </div>
                       </div>
@@ -401,7 +348,7 @@ const ShopPage = () => {
                       {/* Product Info */}
                       <div className="p-6">
                         {/* Category */}
-                        <p className="text-sm text-gray-500 mb-2">{product.category}</p>
+                        <p className="text-sm text-gray-400 mb-2">{product.category}</p>
 
                         {/* Product Name */}
                         <h3 className="text-lg font-playfair font-semibold text-primary mb-2 group-hover:text-accent transition-colors">
@@ -409,7 +356,7 @@ const ShopPage = () => {
                         </h3>
 
                         {/* Material & Stone */}
-                        <p className="text-sm text-gray-600 mb-3">
+                        <p className="text-sm text-gray-400 mb-3">
                           {product.material} • {product.stone}
                         </p>
 
@@ -429,7 +376,7 @@ const ShopPage = () => {
                               </svg>
                             ))}
                           </div>
-                          <span className="text-sm text-gray-600">
+                           <span className="text-sm text-gray-400">
                             {product.rating} ({product.reviews} reviews)
                           </span>
                         </div>
@@ -457,7 +404,7 @@ const ShopPage = () => {
               </motion.div>
             ) : (
               <div className="text-center py-12">
-                <p className="text-gray-500 text-lg">No products found matching your criteria.</p>
+                <p className="text-gray-400 text-lg">No products found matching your criteria.</p>
                 <button
                   onClick={() => {
                     setSearchQuery('')

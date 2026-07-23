@@ -53,7 +53,7 @@ public class AuthService {
         // Generate JWT token
         String jwt = tokenProvider.generateToken(result.getEmail());
         
-        return new AuthResponse(jwt, result.getId(), result.getName(), result.getEmail());
+        return new AuthResponse(jwt, result.getId(), result.getName(), result.getEmail(), result.getRole());
     }
     
     /**
@@ -75,6 +75,6 @@ public class AuthService {
         User user = userRepository.findByEmail(loginRequest.getEmail())
             .orElseThrow(() -> new RuntimeException("User not found"));
         
-        return new AuthResponse(jwt, user.getId(), user.getName(), user.getEmail());
+        return new AuthResponse(jwt, user.getId(), user.getName(), user.getEmail(), user.getRole());
     }
 }

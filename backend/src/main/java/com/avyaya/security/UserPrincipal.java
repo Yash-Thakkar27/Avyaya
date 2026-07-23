@@ -25,8 +25,8 @@ public class UserPrincipal implements UserDetails {
     }
     
     public static UserPrincipal create(User user) {
-        // For simplicity, all users have USER role
-        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
+        String roleName = (user.getRole() != null) ? user.getRole() : "ROLE_USER";
+        GrantedAuthority authority = new SimpleGrantedAuthority(roleName);
         
         return new UserPrincipal(
             user.getId(),

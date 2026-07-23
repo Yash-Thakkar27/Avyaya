@@ -35,6 +35,9 @@ public class User {
     @Column(length = 500)
     private String address;
     
+    @Column(length = 50, nullable = false)
+    private String role = "ROLE_USER";
+    
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -54,6 +57,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.address = address;
+        this.role = "ROLE_USER";
     }
     
     // Getters and Setters
@@ -95,6 +99,14 @@ public class User {
     
     public void setAddress(String address) {
         this.address = address;
+    }
+    
+    public String getRole() {
+        return role;
+    }
+    
+    public void setRole(String role) {
+        this.role = role;
     }
     
     public LocalDateTime getCreatedAt() {

@@ -111,6 +111,7 @@ export interface AuthResponse {
   id: number
   name: string
   email: string
+  role: string
 }
 
 export interface Product {
