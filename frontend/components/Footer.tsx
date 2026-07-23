@@ -145,6 +145,29 @@ const Footer = () => {
           </motion.div>
         </div>
 
+        {/* Book a Consultation CTA */}
+        <motion.div
+          className="border-t border-gray-700 mt-12 pt-10 pb-4"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 bg-gray-800/50 rounded-2xl px-8 py-7 border border-gray-700">
+            <div>
+              <h4 className="text-lg font-semibold text-white mb-1">Ready to find your perfect piece?</h4>
+              <p className="text-gray-400 text-sm">Book a free 1-on-1 consultation with our jewelry experts.</p>
+            </div>
+            <a
+              href="mailto:avyayajewels@gmail.com?subject=Consultation%20Request&body=Hi%20Avyaya%20Team%2C%0A%0AI%20would%20like%20to%20book%20a%20consultation.%0A%0AName%3A%20%0APhone%3A%20%0APreferred%20Time%3A%20"
+              className="flex-shrink-0 inline-flex items-center gap-2 bg-accent hover:bg-accent/90 text-white font-semibold px-7 py-3 rounded-xl transition-all duration-200 hover:shadow-lg hover:shadow-accent/20 hover:-translate-y-0.5 active:translate-y-0 text-sm whitespace-nowrap"
+            >
+              <span>✉️</span>
+              Book a Consultation
+            </a>
+          </div>
+        </motion.div>
+
         {/* Bottom Section */}
         <motion.div
           className="border-t border-gray-700 mt-12 pt-8"
@@ -183,7 +206,7 @@ const Footer = () => {
             </div>
             <div>
               <h5 className="font-semibold text-accent mb-2">📧 Email Us</h5>
-              <p className="text-gray-300 text-sm">hello@avyaya.com</p>
+              <p className="text-gray-300 text-sm">avyayajewels@gmail.com</p>
               <p className="text-gray-400 text-xs">We reply within 24 hours</p>
             </div>
             <div>
