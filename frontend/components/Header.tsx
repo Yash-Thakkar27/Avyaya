@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   ShoppingBagIcon, 
@@ -48,9 +49,14 @@ const Header = () => {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="flex items-center">
-              <span className="text-2xl lg:text-3xl font-playfair font-bold text-primary">
-                Avyaya
-              </span>
+              <Image
+                src="/logo.png"
+                alt="Avyaya"
+                width={160}
+                height={60}
+                className="h-12 w-auto object-contain"
+                priority
+              />
             </Link>
           </div>
 

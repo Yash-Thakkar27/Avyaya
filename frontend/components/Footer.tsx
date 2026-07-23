@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 
 const Footer = () => {
@@ -45,7 +46,15 @@ const Footer = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-3xl font-playfair font-bold mb-4">Avyaya</h3>
+              <Link href="/">
+                <Image
+                  src="/logo.png"
+                  alt="Avyaya"
+                  width={180}
+                  height={70}
+                  className="h-14 w-auto object-contain mb-4 brightness-0 invert"
+                />
+              </Link>
               <p className="text-gray-300 mb-6 leading-relaxed">
                 Eternal as your love. We create minimalist fine jewelry with lab-grown 
                 diamonds designed for daily wear with investment value. Every piece 
