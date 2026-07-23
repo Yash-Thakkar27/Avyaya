@@ -51,6 +51,7 @@ const LoginPage = () => {
         id: auth.id,
         name: auth.name,
         email: auth.email,
+        role: auth.role ?? 'ROLE_USER',
       })
 
       toast.success('Logged in successfully')

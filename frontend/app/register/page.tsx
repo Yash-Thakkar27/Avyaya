@@ -71,6 +71,7 @@ const RegisterPage = () => {
         id: auth.id,
         name: auth.name,
         email: auth.email,
+        role: auth.role ?? 'ROLE_USER',
       })
 
       toast.success('Account created successfully')
