@@ -19,7 +19,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://avyaya.com'),
+  metadataBase: new URL('https://avyayajewels.co.in'),
   title: 'Avyaya - Eternal as your love',
   description: 'Luxury jewelry with lab-grown diamonds designed for daily wear with investment value',
   keywords: 'jewelry, diamonds, luxury, rings, earrings, necklaces',
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://avyaya.com',
+    url: 'https://avyayajewels.co.in',
     siteName: 'Avyaya',
     title: 'Avyaya - Eternal as your love',
     description: 'Luxury jewelry with lab-grown diamonds designed for daily wear with investment value',
