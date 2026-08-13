@@ -90,6 +90,18 @@ export const endpoints = {
     verify: '/payment/verify',
     getDetails: (id: string) => `/payment/details/${id}`,
   },
+
+  // Blogs
+  blogs: {
+    getAll: '/blogs',
+    getBySlug: (slug: string) => `/blogs/${slug}`,
+    adminGetAll: '/blogs/admin/all',
+    create: '/blogs',
+    update: (id: number) => `/blogs/${id}`,
+    delete: (id: number) => `/blogs/${id}`,
+    togglePublish: (id: number) => `/blogs/${id}/toggle-publish`,
+    upload: '/blogs/upload',
+  },
 }
 
 // Type definitions
@@ -156,4 +168,26 @@ export interface OrderItem {
 export interface ApiError {
   message: string
   timestamp?: number
+}
+
+export interface Blog {
+  id: number
+  title: string
+  slug: string
+  excerpt: string
+  content: string
+  coverImageUrl: string
+  author: string
+  published: boolean
+  createdAt: string
+  updatedAt: string
+}
+
+export interface BlogRequest {
+  title: string
+  excerpt: string
+  content: string
+  coverImageUrl: string
+  author: string
+  published: boolean
 }
