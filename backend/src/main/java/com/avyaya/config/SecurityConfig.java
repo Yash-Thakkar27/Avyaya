@@ -70,18 +70,30 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
-                
+
+                // Blog: public read, admin write
+                .requestMatchers(HttpMethod.GET, "/api/blogs").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/blogs/{slug}").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/blogs").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/blogs/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PATCH, "/api/blogs/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/blogs/**").hasRole("ADMIN")
+                .requestMatchers("/api/blogs/admin/**").hasRole("ADMIN")
+
+                // Static uploaded images — publicly accessible
+                .requestMatchers("/uploads/**").permitAll()
+
                 // Admin only endpoints
                 .requestMatchers(HttpMethod.POST, "/api/products").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/products/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                
+
                 // Authenticated user endpoints
                 .requestMatchers("/api/cart/**").authenticated()
                 .requestMatchers("/api/orders/**").authenticated()
                 .requestMatchers("/api/payment/**").authenticated()
-                
+
                 .anyRequest().authenticated()
             );
         
