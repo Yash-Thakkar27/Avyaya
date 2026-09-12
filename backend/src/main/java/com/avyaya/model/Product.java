@@ -43,6 +43,10 @@ public class Product {
     
     @Column(name = "image_url", length = 500)
     private String imageUrl;
+
+    /** Comma-separated list of additional image URLs (gallery, up to 5 total incl. primary). */
+    @Column(name = "image_urls", columnDefinition = "TEXT")
+    private String imageUrls;
     
     @Column(nullable = false)
     @NotNull(message = "Stock is required")
@@ -63,8 +67,8 @@ public class Product {
     public Product() {}
     
     // Constructor
-    public Product(String name, String description, BigDecimal price, String category, 
-                   String material, String stone, String imageUrl, Integer stock) {
+    public Product(String name, String description, BigDecimal price, String category,
+                   String material, String stone, String imageUrl, String imageUrls, Integer stock) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -72,6 +76,7 @@ public class Product {
         this.material = material;
         this.stone = stone;
         this.imageUrl = imageUrl;
+        this.imageUrls = imageUrls;
         this.stock = stock;
     }
     
@@ -139,7 +144,15 @@ public class Product {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-    
+
+    public String getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(String imageUrls) {
+        this.imageUrls = imageUrls;
+    }
+
     public Integer getStock() {
         return stock;
     }

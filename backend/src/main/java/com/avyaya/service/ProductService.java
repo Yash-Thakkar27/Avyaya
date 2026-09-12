@@ -82,6 +82,7 @@ public class ProductService {
         product.setMaterial(productRequest.getMaterial());
         product.setStone(productRequest.getStone());
         product.setImageUrl(productRequest.getImageUrl());
+        product.setImageUrls(productRequest.getImageUrls());
         product.setStock(productRequest.getStock());
         
         Product savedProduct = productRepository.save(product);
@@ -106,6 +107,7 @@ public class ProductService {
         product.setMaterial(productRequest.getMaterial());
         product.setStone(productRequest.getStone());
         product.setImageUrl(productRequest.getImageUrl());
+        product.setImageUrls(productRequest.getImageUrls());
         product.setStock(productRequest.getStock());
         
         Product updatedProduct = productRepository.save(product);
@@ -138,6 +140,7 @@ public class ProductService {
             product.getMaterial(),
             product.getStone(),
             product.getImageUrl(),
+            product.getImageUrls(),
             product.getStock(),
             product.getCreatedAt()
         );

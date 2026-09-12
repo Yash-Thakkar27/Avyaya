@@ -13,6 +13,7 @@ public class ProductResponse {
     private String material;
     private String stone;
     private String imageUrl;
+    private String imageUrls;
     private Integer stock;
     private LocalDateTime createdAt;
     
@@ -21,7 +22,7 @@ public class ProductResponse {
     
     // Constructor
     public ProductResponse(Long id, String name, String description, BigDecimal price, String category,
-                          String material, String stone, String imageUrl, Integer stock, LocalDateTime createdAt) {
+                          String material, String stone, String imageUrl, String imageUrls, Integer stock, LocalDateTime createdAt) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -30,6 +31,7 @@ public class ProductResponse {
         this.material = material;
         this.stone = stone;
         this.imageUrl = imageUrl;
+        this.imageUrls = imageUrls;
         this.stock = stock;
         this.createdAt = createdAt;
     }
@@ -98,7 +100,15 @@ public class ProductResponse {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-    
+
+    public String getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(String imageUrls) {
+        this.imageUrls = imageUrls;
+    }
+
     public Integer getStock() {
         return stock;
     }

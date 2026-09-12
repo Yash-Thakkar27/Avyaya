@@ -3,19 +3,16 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { MagnifyingGlassIcon, AdjustmentsHorizontalIcon, HeartIcon, ShoppingBagIcon } from '@heroicons/react/24/outline'
+import { MagnifyingGlassIcon, AdjustmentsHorizontalIcon, HeartIcon, EnvelopeIcon } from '@heroicons/react/24/outline'
 import { HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid'
 import toast from 'react-hot-toast'
 import api, { endpoints } from '@/lib/api'
-import { useAuthStore, useCartStore } from '@/lib/store'
+
+const CONTACT_EMAIL = 'avyayajewels@gmail.com'
 
 const ShopPage = () => {
-  const router = useRouter()
-  const { isAuthenticated } = useAuthStore()
-  const { addItem } = useCartStore()
-  const [loadingId, setLoadingId] = useState<number | null>(null)
+  const [loadingId] = useState<number | null>(null)
   const [allProducts, setAllProducts] = useState<any[]>([])
   const [apiLoading, setApiLoading] = useState(true)
 
@@ -84,24 +81,6 @@ const ShopPage = () => {
 
     setFilteredProducts(filtered)
   }, [searchQuery, selectedCategory, priceRange, sortBy, allProducts])
-
-  const handleAddToCart = async (productId: number) => {
-    if (!isAuthenticated) {
-      toast.error('Please sign in to add items to cart')
-      router.push('/login')
-      return
-    }
-    setLoadingId(productId)
-    try {
-      const response = await api.post(endpoints.cart.add, { productId, quantity: 1 })
-      addItem(response.data)
-      toast.success('Added to cart!')
-    } catch {
-      toast.error('Could not add to cart. Please try again.')
-    } finally {
-      setLoadingId(null)
-    }
-  }
 
   const toggleFavorite = (productId: number) => {
     setFavorites(prev =>
@@ -328,19 +307,13 @@ const ShopPage = () => {
                             >
                               View Details
                             </Link>
-                             <button
-                               onClick={(e) => {
-                                 e.preventDefault()
-                                 handleAddToCart(product.id)
-                               }}
-                               disabled={loadingId === product.id || product.stock === 0}
-                               className="bg-accent text-white px-4 py-2 rounded-lg hover:bg-accent/90 transition-colors font-medium flex items-center space-x-2 disabled:opacity-60 disabled:cursor-not-allowed"
-                             >
-                               <ShoppingBagIcon className="w-4 h-4" />
-                               <span>
-                                 {product.stock === 0 ? 'Sold Out' : loadingId === product.id ? 'Adding...' : 'Add to Cart'}
-                               </span>
-                             </button>
+                            <a
+                              href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Enquiry: ${product.name}`)}`}
+                              className="bg-accent text-white px-4 py-2 rounded-lg hover:bg-accent/90 transition-colors font-medium flex items-center space-x-2"
+                            >
+                              <EnvelopeIcon className="w-4 h-4" />
+                              <span>Enquire</span>
+                            </a>
                           </div>
                         </div>
                       </div>

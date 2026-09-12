@@ -59,6 +59,7 @@ export const endpoints = {
     create: '/products',
     update: (id: number) => `/products/${id}`,
     delete: (id: number) => `/products/${id}`,
+    upload: '/products/upload',
   },
   
   // Categories
@@ -135,6 +136,8 @@ export interface Product {
   material: string
   stone: string
   imageUrl: string
+  /** Comma-separated gallery image URLs (additional images beyond the primary). */
+  imageUrls?: string
   stock: number
   createdAt: string
 }

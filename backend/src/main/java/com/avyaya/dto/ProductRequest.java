@@ -26,27 +26,17 @@ public class ProductRequest {
     private String stone;
     
     private String imageUrl;
-    
+
+    /** Comma-separated additional image URLs for the gallery (optional). */
+    private String imageUrls;
+
     @NotNull(message = "Stock is required")
     @Min(value = 0, message = "Stock cannot be negative")
     private Integer stock;
     
     // Default constructor
     public ProductRequest() {}
-    
-    // Constructor
-    public ProductRequest(String name, String description, BigDecimal price, String category, 
-                          String material, String stone, String imageUrl, Integer stock) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.category = category;
-        this.material = material;
-        this.stone = stone;
-        this.imageUrl = imageUrl;
-        this.stock = stock;
-    }
-    
+
     // Getters and Setters
     public String getName() {
         return name;
@@ -103,7 +93,15 @@ public class ProductRequest {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-    
+
+    public String getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(String imageUrls) {
+        this.imageUrls = imageUrls;
+    }
+
     public Integer getStock() {
         return stock;
     }

@@ -1,115 +1,65 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { HeartIcon, ShoppingBagIcon } from '@heroicons/react/24/outline'
+import { EnvelopeIcon, SparklesIcon } from '@heroicons/react/24/outline'
 import toast from 'react-hot-toast'
-import api, { endpoints } from '@/lib/api'
-import { useAuthStore, useCartStore } from '@/lib/store'
+import api, { endpoints, Product } from '@/lib/api'
+
+const CONTACT_EMAIL = 'avyayajewels@gmail.com'
 
 const FeaturedProducts = () => {
-  const router = useRouter()
-  const { isAuthenticated } = useAuthStore()
-  const { addItem } = useCartStore()
-  const [loadingId, setLoadingId] = useState<number | null>(null)
+  const [products, setProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
 
-  const handleAddToCart = async (productId: number) => {
-    if (!isAuthenticated) {
-      toast.error('Please sign in to add items to cart')
-      router.push('/login')
-      return
-    }
-    setLoadingId(productId)
-    try {
-      const response = await api.post(endpoints.cart.add, { productId, quantity: 1 })
-      addItem(response.data)
-      toast.success('Added to cart!')
-    } catch {
-      toast.error('Could not add to cart. Please try again.')
-    } finally {
-      setLoadingId(null)
-    }
-  }
+  useEffect(() => {
+    api.get(endpoints.products.getAll)
+      .then(res => setProducts((res.data as Product[]).slice(0, 4)))
+      .catch(() => toast.error('Failed to load featured products.'))
+      .finally(() => setLoading(false))
+  }, [])
 
-  // Mock featured products data
-  const featuredProducts = [
-    {
-      id: 1,
-      name: 'Eternal Solitaire Ring',
-      price: 45000,
-      originalPrice: 50000,
-      image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      category: 'Rings',
-      material: '18K Gold',
-      stone: '1ct Lab Diamond'
-    },
-    {
-      id: 2,
-      name: 'Classic Drop Earrings',
-      price: 32000,
-      originalPrice: 35000,
-      image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      category: 'Earrings',
-      material: '18K Gold',
-      stone: '0.5ct Lab Diamond'
-    },
-    {
-      id: 3,
-      name: 'Minimalist Chain Necklace',
-      price: 28000,
-      originalPrice: 30000,
-      image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      category: 'Neckwear',
-      material: '18K Gold',
-      stone: 'Lab Diamond Accent'
-    },
-    {
-      id: 4,
-      name: 'Contemporary Band Ring',
-      price: 25000,
-      originalPrice: 28000,
-      image: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      category: 'Unisex',
-      material: '18K Gold',
-      stone: 'Lab Diamond Band'
-    }
-  ]
+  const formatPrice = (price: number) =>
+    new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(price)
 
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
+    visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
   }
 
   const itemVariants = {
     hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 }
-    }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
   }
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      maximumFractionDigits: 0,
-    }).format(price)
+  // Skeleton loader
+  if (loading) {
+    return (
+      <section className="py-20 bg-gray-950">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="h-10 bg-gray-800 rounded-lg animate-pulse w-64 mx-auto mb-4" />
+            <div className="h-5 bg-gray-800 rounded animate-pulse w-96 mx-auto" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="bg-gray-800 rounded-xl h-80 animate-pulse" />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
   }
+
+  if (products.length === 0) return null
 
   return (
     <section className="py-20 bg-gray-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <motion.div 
+        <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -117,108 +67,81 @@ const FeaturedProducts = () => {
           viewport={{ once: true }}
         >
           <h2 className="text-3xl lg:text-4xl font-playfair font-bold text-primary mb-4">
-            Featured Products
+            Featured Collection
           </h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            Handpicked pieces from our collection that embody sophistication, 
-            craftsmanship, and timeless elegance.
+            Handpicked pieces that embody sophistication, craftsmanship, and timeless elegance.
           </p>
         </motion.div>
 
         {/* Products Grid */}
-        <motion.div 
+        <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
         >
-          {featuredProducts.map((product) => (
+          {products.map((product) => (
             <motion.div
               key={product.id}
               variants={itemVariants}
-              className="group cursor-pointer"
+              className="group"
             >
-              <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-2xl hover:shadow-accent/5 transition-all duration-300 border border-gray-700/50">
+              <div className="bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl hover:shadow-accent/10 transition-all duration-300 border border-gray-700/50 flex flex-col">
                 {/* Product Image */}
-                <div className="relative aspect-square overflow-hidden">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  
-                  {/* Discount Badge */}
-                  <div className="absolute top-3 left-3">
-                    <span className="bg-accent text-white px-2 py-1 rounded-full text-xs font-medium">
-                      Save {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
-                    </span>
-                  </div>
-                  
-                  {/* Action Buttons */}
-                  <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="flex flex-col space-y-2">
-                      <button className="p-2 bg-gray-700 rounded-full shadow-lg hover:bg-gray-600 transition-colors">
-                        <HeartIcon className="w-5 h-5 text-gray-300 hover:text-accent" />
-                      </button>
-                      <button
-                        onClick={() => handleAddToCart(product.id)}
-                        disabled={loadingId === product.id}
-                        className="p-2 bg-gray-700 rounded-full shadow-lg hover:bg-gray-600 transition-colors disabled:opacity-60"
-                      >
-                        <ShoppingBagIcon className="w-5 h-5 text-gray-300 hover:text-accent" />
-                      </button>
+                <div className="relative aspect-square overflow-hidden bg-gray-700">
+                  {product.imageUrl ? (
+                    <Image
+                      src={product.imageUrl}
+                      alt={product.name}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <SparklesIcon className="w-12 h-12 text-gray-600" />
                     </div>
-                  </div>
-                  
-                  {/* Quick View Overlay */}
-                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <Link 
+                  )}
+
+                  {/* Sold Out overlay */}
+                  {product.stock === 0 && (
+                    <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                      <span className="text-white font-bold text-sm bg-red-600 px-3 py-1 rounded-full tracking-wide">SOLD OUT</span>
+                    </div>
+                  )}
+
+                  {/* Quick View overlay */}
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <Link
                       href={`/product/${product.id}`}
-                      className="bg-white text-primary px-6 py-2 rounded-full font-medium hover:bg-gray-100 transition-colors"
+                      className="bg-white text-primary px-5 py-2 rounded-full font-medium hover:bg-gray-100 transition-colors text-sm"
                     >
-                      Quick View
+                      View Details
                     </Link>
                   </div>
                 </div>
-                
+
                 {/* Product Info */}
-                <div className="p-6">
-                  <div className="mb-2">
-                    <span className="text-xs text-accent font-medium uppercase tracking-wider">
-                      {product.category}
-                    </span>
-                  </div>
-                  
-                  <h3 className="text-lg font-playfair font-semibold text-primary mb-2 group-hover:text-accent transition-colors">
-                    <Link href={`/product/${product.id}`}>
-                      {product.name}
-                    </Link>
+                <div className="p-5 flex flex-col flex-1">
+                  <p className="text-xs text-accent font-medium uppercase tracking-wider mb-1">{product.category}</p>
+                  <h3 className="text-base font-playfair font-semibold text-primary mb-1 group-hover:text-accent transition-colors line-clamp-1">
+                    <Link href={`/product/${product.id}`}>{product.name}</Link>
                   </h3>
-                  
-                  <div className="text-sm text-gray-500 mb-3">
-                    <p>{product.material} • {product.stone}</p>
+                  <p className="text-xs text-gray-500 mb-3 line-clamp-1">
+                    {[product.material, product.stone].filter(Boolean).join(' • ')}
+                  </p>
+
+                  <div className="mt-auto flex items-center justify-between">
+                    <span className="text-lg font-bold text-primary">{formatPrice(product.price)}</span>
+                    <a
+                      href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Enquiry: ${product.name}`)}`}
+                      className="flex items-center gap-1 text-xs text-accent hover:text-accent/80 font-medium transition-colors"
+                    >
+                      <EnvelopeIcon className="w-4 h-4" />
+                      Enquire
+                    </a>
                   </div>
-                  
-                  {/* Price */}
-                  <div className="flex items-center space-x-2">
-                    <span className="text-xl font-bold text-primary">
-                      {formatPrice(product.price)}
-                    </span>
-                    <span className="text-sm text-gray-600 line-through">
-                      {formatPrice(product.originalPrice)}
-                    </span>
-                  </div>
-                  
-                  {/* Add to Cart Button */}
-                  <button
-                    onClick={() => handleAddToCart(product.id)}
-                    disabled={loadingId === product.id}
-                    className="w-full mt-4 btn-primary text-sm py-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 disabled:opacity-60"
-                  >
-                    {loadingId === product.id ? 'Adding...' : 'Add to Cart'}
-                  </button>
                 </div>
               </div>
             </motion.div>
@@ -226,15 +149,15 @@ const FeaturedProducts = () => {
         </motion.div>
 
         {/* Shop All Link */}
-        <motion.div 
+        <motion.div
           className="text-center mt-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
           viewport={{ once: true }}
         >
-          <Link 
-            href="/shop" 
+          <Link
+            href="/shop"
             className="inline-flex items-center text-accent hover:text-accent/80 font-medium text-lg transition-colors"
           >
             Shop All Products
