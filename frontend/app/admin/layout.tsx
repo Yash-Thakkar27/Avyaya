@@ -1,0 +1,8 @@
+import type { Metadata } from 'next'
+import { noIndex } from '@/lib/site'
+
+export const metadata: Metadata = { ...noIndex, title: 'Admin' }
+
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  return children
+}

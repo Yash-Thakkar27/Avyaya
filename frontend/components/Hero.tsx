@@ -14,28 +14,29 @@ const Hero = () => {
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        {/* Heading and subtitle stay visible from first paint (slide only, no fade) so LCP doesn't wait for JS */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ y: 30 }}
+          animate={{ y: 0 }}
           transition={{ duration: 0.8 }}
           className="space-y-8"
         >
           {/* Main Heading */}
           <motion.h1
             className="text-4xl sm:text-5xl lg:text-7xl font-playfair font-bold text-primary leading-tight"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ y: 20 }}
+            animate={{ y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Eternal as your
+            Eternal as your{' '}
             <span className="block text-gradient">love</span>
           </motion.h1>
 
           {/* Subtitle */}
           <motion.p
             className="text-lg sm:text-xl lg:text-2xl text-gray-400 max-w-3xl mx-auto leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ y: 20 }}
+            animate={{ y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             Discover our collection of minimalist fine jewelry with lab-grown diamonds,
