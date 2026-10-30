@@ -20,7 +20,7 @@ const STATIC_PATHS = [
 ]
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [products, blogs] = await Promise.all([getProducts(), getBlogs()])
+  const [products = [], blogs = []] = await Promise.all([getProducts(), getBlogs()])
 
   return [
     ...STATIC_PATHS.map((path) => ({ url: `${SITE_URL}${path}` })),

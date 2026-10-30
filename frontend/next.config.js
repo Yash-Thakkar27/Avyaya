@@ -1,7 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['images.unsplash.com', 'via.placeholder.com'],
+    remotePatterns: [
+      { protocol: 'https', hostname: 'images.unsplash.com' },
+      { protocol: 'https', hostname: 'via.placeholder.com' },
+      // Product and blog uploads are served by the backend (avyaya.base-url)
+      { protocol: 'https', hostname: 'avyaya.onrender.com' },
+      { protocol: 'http', hostname: 'localhost', port: '8080' },
+    ],
   },
   async headers() {
     return [
