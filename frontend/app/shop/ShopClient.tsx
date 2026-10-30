@@ -8,15 +8,18 @@ import { MagnifyingGlassIcon, AdjustmentsHorizontalIcon, HeartIcon, EnvelopeIcon
 import { HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid'
 import toast from 'react-hot-toast'
 import api, { endpoints, Product } from '@/lib/api'
+import { CATEGORIES, Category, productPath } from '@/lib/catalog'
 
 const CONTACT_EMAIL = 'avyayajewels@gmail.com'
 
 interface ShopClientProps {
   /** Products fetched on the server; undefined if the server couldn't reach the API */
   initialProducts?: Product[]
+  /** Set on category pages (/shop/rings etc.); omitted on /shop */
+  category?: Category
 }
 
-const ShopClient = ({ initialProducts }: ShopClientProps) => {
+const ShopClient = ({ initialProducts, category }: ShopClientProps) => {
   const [allProducts, setAllProducts] = useState<any[]>(initialProducts ?? [])
   const [apiLoading, setApiLoading] = useState(!initialProducts)
 
@@ -29,14 +32,17 @@ const ShopClient = ({ initialProducts }: ShopClientProps) => {
       .finally(() => setApiLoading(false))
   }, [initialProducts])
 
-  const [selectedCategory, setSelectedCategory] = useState('All')
   const [priceRange, setPriceRange] = useState([0, 100000])
   const [sortBy, setSortBy] = useState('newest')
   const [searchQuery, setSearchQuery] = useState('')
   const [favorites, setFavorites] = useState<number[]>([])
   const [showFilters, setShowFilters] = useState(false)
 
-  const categories = ['All', 'Rings', 'Earrings', 'Neckwear', 'Bracelets']
+  // Categories are links to their own pages rather than a client-side filter, so each has a crawlable URL
+  const categoryLinks = [
+    { label: 'All', href: '/shop', active: !category },
+    ...CATEGORIES.map(c => ({ label: c.name, href: `/shop/${c.slug}`, active: c.slug === category?.slug })),
+  ]
   const sortOptions = [
     { value: 'newest', label: 'Newest First' },
     { value: 'price-low', label: 'Price: Low to High' },
@@ -44,9 +50,16 @@ const ShopClient = ({ initialProducts }: ShopClientProps) => {
     { value: 'rating', label: 'Highest Rated' }
   ]
 
+  const categoryProducts = useMemo(
+    () => category
+      ? allProducts.filter(product => product.category?.toLowerCase() === category.name.toLowerCase())
+      : allProducts,
+    [allProducts, category]
+  )
+
   // Filter and sort products during render, so the server HTML already has the sorted list
   const filteredProducts = useMemo(() => {
-    let filtered = [...allProducts]
+    let filtered = [...categoryProducts]
 
     // Search filter
     if (searchQuery) {
@@ -55,11 +68,6 @@ const ShopClient = ({ initialProducts }: ShopClientProps) => {
         product.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.material.toLowerCase().includes(searchQuery.toLowerCase())
       )
-    }
-
-    // Category filter
-    if (selectedCategory !== 'All') {
-      filtered = filtered.filter(product => product.category === selectedCategory)
     }
 
     // Price filter
@@ -83,7 +91,7 @@ const ShopClient = ({ initialProducts }: ShopClientProps) => {
     })
 
     return filtered
-  }, [searchQuery, selectedCategory, priceRange, sortBy, allProducts])
+  }, [searchQuery, priceRange, sortBy, categoryProducts])
 
   const toggleFavorite = (productId: number) => {
     setFavorites(prev =>
@@ -123,9 +131,13 @@ const ShopClient = ({ initialProducts }: ShopClientProps) => {
             animate={{ y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-4xl font-playfair font-bold text-primary mb-4">Our Collection</h1>
-            <p className="text-lg text-gray-400">
-              Discover our complete range of luxury jewelry pieces crafted with precision and designed to last a lifetime.
+            <h1 className="text-4xl font-playfair font-bold text-primary mb-4">
+              {category ? category.heading : 'Our Collection'}
+            </h1>
+            <p className="text-lg text-gray-400 max-w-3xl">
+              {category
+                ? category.intro
+                : 'Discover our complete range of luxury jewelry pieces crafted with precision and designed to last a lifetime.'}
             </p>
           </motion.div>
         </div>
@@ -168,18 +180,19 @@ const ShopClient = ({ initialProducts }: ShopClientProps) => {
                   Categories
                 </label>
                 <div className="space-y-2">
-                  {categories.map((category) => (
-                    <button
-                      key={category}
-                      onClick={() => setSelectedCategory(category)}
-                      className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                        selectedCategory === category
+                  {categoryLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      aria-current={link.active ? 'page' : undefined}
+                      className={`block w-full text-left px-3 py-2 rounded-lg transition-colors ${
+                        link.active
                           ? 'bg-accent text-white'
                           : 'text-gray-300 hover:bg-gray-700'
                       }`}
                     >
-                      {category}
-                    </button>
+                      {link.label}
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -242,7 +255,7 @@ const ShopClient = ({ initialProducts }: ShopClientProps) => {
             {/* Results Count */}
             <div className="flex justify-between items-center mb-6">
               <p className="text-gray-400">
-                Showing {filteredProducts.length} of {allProducts.length} products
+                Showing {filteredProducts.length} of {categoryProducts.length} products
               </p>
             </div>
 
@@ -306,7 +319,7 @@ const ShopClient = ({ initialProducts }: ShopClientProps) => {
                         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                           <div className="flex space-x-3">
                             <Link
-                              href={`/product/${product.id}`}
+                              href={productPath(product)}
                               className="bg-white text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium"
                             >
                               View Details
@@ -385,7 +398,6 @@ const ShopClient = ({ initialProducts }: ShopClientProps) => {
                 <button
                   onClick={() => {
                     setSearchQuery('')
-                    setSelectedCategory('All')
                     setPriceRange([0, 100000])
                   }}
                   className="mt-4 btn-primary"

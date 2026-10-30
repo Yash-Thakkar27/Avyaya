@@ -1,4 +1,5 @@
 import type { Blog, Product } from './api'
+import { parseProductId } from './catalog'
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080/api'
 // Cached responses are reused for this long, so admin edits show up on the public pages within ~5 minutes
@@ -28,8 +29,11 @@ async function fetchJson<T>(path: string): Promise<T | null | undefined> {
   }
 }
 
-export const getProduct = (id: string) =>
-  /^\d+$/.test(id) ? fetchJson<Product>(`/products/${id}`) : Promise.resolve(null)
+/** Accepts a product URL slug ("solitaire-ring-12") or a bare id ("12") */
+export const getProduct = (slug: string) => {
+  const id = parseProductId(slug)
+  return id ? fetchJson<Product>(`/products/${id}`) : Promise.resolve(null)
+}
 
 export const getBlog = (slug: string) => fetchJson<Blog>(`/blogs/${encodeURIComponent(slug)}`)
 

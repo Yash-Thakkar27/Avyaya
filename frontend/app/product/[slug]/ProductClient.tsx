@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import toast from 'react-hot-toast'
 import api, { endpoints, Product } from '@/lib/api'
+import { categoryPath } from '@/lib/catalog'
 import {
   HeartIcon,
   ShareIcon,
@@ -113,7 +114,7 @@ const ProductClient = ({ productId, initialProduct }: ProductClientProps) => {
             <span>/</span>
             <Link href="/shop" className="hover:text-accent">Shop</Link>
             <span>/</span>
-            <Link href={`/shop?category=${product.category}`} className="hover:text-accent">{product.category}</Link>
+            <Link href={categoryPath(product.category)} className="hover:text-accent">{product.category}</Link>
             <span>/</span>
             <span className="text-primary">{product.name}</span>
           </nav>

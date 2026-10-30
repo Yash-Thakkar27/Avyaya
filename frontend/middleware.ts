@@ -1,8 +1,14 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { categoryPath } from '@/lib/catalog'
 
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl
+  const { pathname, searchParams } = request.nextUrl
+
+  // Old /shop?category=Rings links now have their own pages
+  if (pathname === '/shop' && searchParams.has('category')) {
+    return NextResponse.redirect(new URL(categoryPath(searchParams.get('category')), request.url), 308)
+  }
 
   // Only guard /admin routes (except /admin/login)
   if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
@@ -19,5 +25,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ['/admin/:path*', '/shop'],
 }

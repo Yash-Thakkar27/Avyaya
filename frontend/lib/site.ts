@@ -24,7 +24,8 @@ interface PageMetadataOptions {
 export function pageMetadata({ title, description, path, image, type = 'website' }: PageMetadataOptions): Metadata {
   const images = image ? [{ url: image }] : undefined
   return {
-    title,
+    // Absolute rather than relying on the root title template, which nested layouts with their own title break
+    title: { absolute: `${title} | ${SITE_NAME}` },
     description,
     alternates: { canonical: path },
     openGraph: {
