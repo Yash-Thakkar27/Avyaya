@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { SITE_URL } from '@/lib/site'
 import { getBlogs, getProducts } from '@/lib/server-api'
+import { CATEGORIES, productPath } from '@/lib/catalog'
 
 export const revalidate = 3600
 
@@ -24,8 +25,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     ...STATIC_PATHS.map((path) => ({ url: `${SITE_URL}${path}` })),
+    ...CATEGORIES.map((category) => ({ url: `${SITE_URL}/shop/${category.slug}` })),
     ...products.map((product) => ({
-      url: `${SITE_URL}/product/${product.id}`,
+      url: `${SITE_URL}${productPath(product)}`,
       lastModified: product.createdAt,
     })),
     ...blogs

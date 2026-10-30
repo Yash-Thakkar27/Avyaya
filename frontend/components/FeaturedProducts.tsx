@@ -7,6 +7,7 @@ import { motion } from 'framer-motion'
 import { EnvelopeIcon, SparklesIcon } from '@heroicons/react/24/outline'
 import toast from 'react-hot-toast'
 import api, { endpoints, Product } from '@/lib/api'
+import { productPath } from '@/lib/catalog'
 
 const CONTACT_EMAIL = 'avyayajewels@gmail.com'
 
@@ -114,7 +115,7 @@ const FeaturedProducts = () => {
                   {/* Quick View overlay */}
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <Link
-                      href={`/product/${product.id}`}
+                      href={productPath(product)}
                       className="bg-white text-primary px-5 py-2 rounded-full font-medium hover:bg-gray-100 transition-colors text-sm"
                     >
                       View Details
@@ -126,7 +127,7 @@ const FeaturedProducts = () => {
                 <div className="p-5 flex flex-col flex-1">
                   <p className="text-xs text-accent font-medium uppercase tracking-wider mb-1">{product.category}</p>
                   <h3 className="text-base font-playfair font-semibold text-primary mb-1 group-hover:text-accent transition-colors line-clamp-1">
-                    <Link href={`/product/${product.id}`}>{product.name}</Link>
+                    <Link href={productPath(product)}>{product.name}</Link>
                   </h3>
                   <p className="text-xs text-gray-500 mb-3 line-clamp-1">
                     {[product.material, product.stone].filter(Boolean).join(' • ')}

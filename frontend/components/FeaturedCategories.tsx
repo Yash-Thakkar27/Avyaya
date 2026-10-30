@@ -10,25 +10,25 @@ const FeaturedCategories = () => {
     {
       name: 'Earrings',
       image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80',
-      href: '/shop?category=Earrings',
+      href: '/shop/earrings',
       description: 'Elegant pieces for every occasion'
     },
     {
       name: 'Rings',
       image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80',
-      href: '/shop?category=Rings',
+      href: '/shop/rings',
       description: 'Timeless symbols of love'
     },
     {
       name: 'Neckwear',
       image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
-      href: '/shop?category=Neckwear',
+      href: '/shop/necklaces',
       description: 'Grace your neckline with luxury'
     },
     {
       name: 'Unisex',
       image: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
-      href: '/shop?category=Unisex',
+      href: '/shop',
       description: 'Modern pieces for everyone'
     }
   ]
