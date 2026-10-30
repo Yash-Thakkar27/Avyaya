@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { Cormorant_Garamond, Inter } from 'next/font/google'
 import { Providers } from './providers'
 import { Toaster } from 'react-hot-toast'
+import { INSTAGRAM_URL, SITE_DESCRIPTION, SITE_NAME, SITE_URL, toJsonLd } from '@/lib/site'
 
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
@@ -19,30 +20,53 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://avyayajewels.co.in'),
-  title: 'Avyaya - Eternal as your love',
-  description: 'Luxury jewelry with lab-grown diamonds designed for daily wear with investment value',
-  keywords: 'jewelry, diamonds, luxury, rings, earrings, necklaces',
-  authors: [{ name: 'Avyaya' }],
-  creator: 'Avyaya',
-  publisher: 'Avyaya',
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: 'Avyaya - Eternal as your love',
+    template: '%s | Avyaya',
+  },
+  description: SITE_DESCRIPTION,
+  authors: [{ name: SITE_NAME }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
   robots: {
     index: true,
     follow: true,
   },
   openGraph: {
     type: 'website',
-    locale: 'en_US',
-    url: 'https://avyayajewels.co.in',
-    siteName: 'Avyaya',
+    locale: 'en_IN',
+    siteName: SITE_NAME,
     title: 'Avyaya - Eternal as your love',
-    description: 'Luxury jewelry with lab-grown diamonds designed for daily wear with investment value',
+    description: SITE_DESCRIPTION,
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Avyaya - Eternal as your love',
-    description: 'Luxury jewelry with lab-grown diamonds designed for daily wear with investment value',
+    description: SITE_DESCRIPTION,
   },
+}
+
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${SITE_URL}/#organization`,
+      name: 'Avyaya Jewels',
+      url: SITE_URL,
+      logo: `${SITE_URL}/logo.png`,
+      sameAs: [INSTAGRAM_URL],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: SITE_NAME,
+      inLanguage: 'en-IN',
+      publisher: { '@id': `${SITE_URL}/#organization` },
+    },
+  ],
 }
 
 export default function RootLayout({
@@ -51,11 +75,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <head>
-        <script src="https://checkout.razorpay.com/v1/checkout.js" async></script>
-      </head>
+    <html lang="en-IN">
       <body className={`${inter.variable} ${cormorant.variable} font-inter`}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: toJsonLd(organizationJsonLd) }}
+        />
         <Providers>
           {children}
           <Toaster 
